@@ -13,6 +13,20 @@ defmodule BrickTest do
     assert actual.reflection in [true, false]
   end
 
+  test "should manipulate brick" do
+    actual = 
+      new_brick()
+      |> left
+      |> right
+      |> right
+      |> down
+      |> spin_90
+
+    assert actual.name  == :o
+    assert actual.rotation == 90
+    assert actual.location == {41, 1}
+  end
+
   def new_brick() do
     Tetris.Brick.new()
   end
