@@ -1,7 +1,8 @@
 defmodule BrickTest do
   use ExUnit.Case
 
-  import Tetris.{Brick, Points}
+  import Tetris.Brick
+  alias Tetris.Points
   test "Creates a new brick" do
     assert new_brick().name == :o
   end
@@ -47,12 +48,29 @@ defmodule BrickTest do
     points = 
       new_brick(name: :i)
       |> shape()
-      |> translate({0,1})
-      |> translate({1,0})
+      |> Points.translate({0,1})
+      |> Points.translate({1,0})
 
     assert  points == [{3, 2}, {3, 3}, {3, 4}, {3, 5}]
-
   end
+
+  test "should translate a list of points" do
+    [{1, 1}]
+    |> Points.mirror 
+    |> assert_point({4, 1})
+    |> Points.flip 
+    |> assert_point({4, 4})
+    |> Points.rotate_90
+    |> assert_point({1, 4})
+    |> Points.rotate_90
+    |> assert_point({1, 1})
+  end
+
+  def assert_point([actual], expected) do
+    assert actual == expected
+    [actual]
+  end
+    
   def new_brick(attributes \\ []) do
     new(attributes)
   end
