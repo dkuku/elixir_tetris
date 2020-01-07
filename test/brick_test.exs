@@ -4,7 +4,7 @@ defmodule BrickTest do
   import Tetris.Brick
   alias Tetris.Points
   test "Creates a new brick" do
-    assert new_brick().name == :o
+    assert new_brick().name == :l
   end
 
   test "Creates a new random brick" do
@@ -17,14 +17,23 @@ defmodule BrickTest do
   test "should manipulate brick" do
     actual = 
       new_brick()
+      |> assert_location({40, 0})
       |> left
+      |> assert_location({39, 0})
       |> right
+      |> assert_location({40, 0})
       |> right
+      |> assert_location({41, 0})
       |> down
+      |> assert_location({41, 1})
+      |> assert_rotation(0)
       |> spin_90
+      |> assert_rotation(90)
+      |> spin_90
+      |> assert_rotation(180)
 
-    assert actual.name  == :o
-    assert actual.rotation == 90
+    assert actual.name  == :l
+    assert actual.rotation == 180
     assert actual.location == {41, 1}
   end
 
@@ -48,8 +57,8 @@ defmodule BrickTest do
     points = 
       new_brick(name: :i)
       |> shape()
-      |> Points.translate({0,1})
-      |> Points.translate({1,0})
+      |> Points.move_to_location({0,1})
+      |> Points.move_to_location({1,0})
 
     assert  points == [{3, 2}, {3, 3}, {3, 4}, {3, 5}]
   end
@@ -66,6 +75,53 @@ defmodule BrickTest do
     |> assert_point({1, 1})
   end
 
+  test "should convert brick to string" do
+    actual = new_brick(name: :l) |> Tetris.Brick.to_string
+    expected = "    \n□□□ \n  □ \n    "
+
+    assert actual == expected
+  end
+
+  test "should inspect brick" do
+    actual = new_brick(name: :l) |> inspect
+    expected = 
+"""
+
+    
+□□□ 
+  □ 
+    
+ location: {#{x_center()}, 0}
+ reflection: false
+ rotation: 0
+"""
+
+    assert "#{actual}\n" == expected
+  end
+
+  test "add color" do
+    colors = ~w(blue orange yellow red green)a
+    assert color(%{name: :l}) in colors
+    assert color(%{name: :i}) in colors
+    assert color(%{name: :o}) in colors
+    assert color(%{name: :t}) in colors
+    assert color(%{name: :z}) in colors
+
+    actual = 
+      new()
+      |> shape
+      |> Tetris.Points.with_color(:blue)
+
+    assert actual == [{2, 1, :blue}, {2, 2, :blue}, {2, 3, :blue}, {3, 3, :blue}]
+  end
+  def assert_rotation(actual, expected) do
+    assert actual.rotation == expected
+    actual
+  end
+  def assert_location(actual, expected) do
+    assert actual.location == expected
+    actual
+  end
   def assert_point([actual], expected) do
     assert actual == expected
     [actual]

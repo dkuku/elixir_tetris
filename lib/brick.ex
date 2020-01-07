@@ -1,21 +1,32 @@
 defmodule Tetris.Brick do
+  alias Tetris.Points
+
   defstruct [
-    name: :o,
+    name: :l,
     location: {40, 0},
     rotation: 0,
     reflection: false
   ]
+  @x_center 40
   @names ~w(i z o t l)a
 
   def new(attributes \\ []), do: __struct__(attributes)
   def new_random() do
     %__MODULE__{
     name: random_name(),
-    location: {40, 0},
+    location: {x_center(), 0},
     rotation: random_rotation(),
     reflection: random_reflection()
     }
   end
+
+  def x_center(), do: @x_center
+
+  def color(%{name: :l}), do: :blue
+  def color(%{name: :i}), do: :orange
+  def color(%{name: :o}), do: :yellow
+  def color(%{name: :z}), do: :green
+  def color(%{name: :t}), do: :red
 
   def random_reflection() do
     [true, false]
@@ -87,5 +98,40 @@ defmodule Tetris.Brick do
       {2,2}, {3,2},
       {2,3},
     ] 
+  end
+
+  def prepare(brick) do
+    brick
+      |> shape
+      |> Points.rotate(brick.rotation)
+      |> Points.mirror(brick.reflection)
+  end
+
+  def to_string(brick) do
+    brick
+      |> prepare
+      |> Points.to_string
+  end
+
+  def print(brick) do
+    brick
+      |> prepare
+      |> Points.print
+
+    brick
+  end
+
+  defimpl Inspect, for: Tetris.Brick do
+    import Inspect.Algebra
+
+    def inspect(brick, _opts) do
+      concat([
+        "\n" ,
+        Tetris.Brick.to_string(brick),
+        "\n location: ", inspect(brick.location),
+        "\n reflection: ", inspect(brick.reflection),
+        "\n rotation: ", inspect(brick.rotation),
+      ])
+    end
   end
 end
