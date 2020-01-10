@@ -24,7 +24,7 @@ defmodule Tetris.Brick do
 
   def color(%{name: :l}), do: :blue
   def color(%{name: :i}), do: :orange
-  def color(%{name: :o}), do: :yellow
+  def color(%{name: :o}), do: :grey
   def color(%{name: :z}), do: :green
   def color(%{name: :t}), do: :red
 

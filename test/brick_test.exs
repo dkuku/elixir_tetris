@@ -100,7 +100,7 @@ defmodule BrickTest do
   end
 
   test "add color" do
-    colors = ~w(blue orange yellow red green)a
+    colors = ~w(blue orange yellow red green grey)a
     assert color(%{name: :l}) in colors
     assert color(%{name: :i}) in colors
     assert color(%{name: :o}) in colors
