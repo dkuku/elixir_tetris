@@ -42,7 +42,7 @@ defmodule TetrisTest do
 
     assert actual.brick != Brick.down(brick)
     assert actual.brick != brick
-    assert actual.brick.location == {4, 0}
+    assert actual.brick.location == {4, -3}
     assert Enum.all?(Map.keys(bottom), &is_tuple(actual.bottom[&1]))
     assert actual.score == score
     assert actual.game_over == false
@@ -60,9 +60,24 @@ defmodule TetrisTest do
     %{score: score, bottom: bottom, brick: brick} = 
       Tetris.drop(brick, bottom, score)
 
-    assert brick.location == {4, 0}
+    assert brick.location == {4, -3}
     assert bottom == %{}
     assert score == 800
+  end
+
+  test "game over test" do
+    score = 0
+    brick = Brick.new(name: :i)
+    bottom = 
+      for x <- 2..10, y <- 0..20 do
+        {{x,y}, {x,y, :blue}}
+      end
+      |> Map.new
+
+    %{game_over: game_over} = 
+      Tetris.drop(brick, bottom, score)
+
+    assert game_over == true
   end
 
   test "compute score" do

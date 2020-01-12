@@ -14,7 +14,7 @@ defmodule Tetris.Brick do
   def new_random() do
     %__MODULE__{
     name: random_name(),
-    location: {x_center(), 0},
+    location: {x_center(), -3},
     rotation: random_rotation(),
     reflection: random_reflection()
     }
