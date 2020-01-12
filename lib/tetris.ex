@@ -25,6 +25,7 @@ defmodule Tetris do
   end
 
   def do_drop(true=_collides, brick, bottom, score) do
+    new_brick = Brick.new_random()
     points = 
       brick 
       |> prepare
@@ -36,17 +37,19 @@ defmodule Tetris do
       |> Bottom.full_collapse
 
     %{
-      brick: Brick.new_random(),
+      brick: new_brick,
       bottom: new_bottom,
-      score: score + compute_score(deleted_rows)
-    } 
+      score: score + compute_score(deleted_rows),
+      game_over: Bottom.collides?(new_bottom, prepare(new_brick))
+    }
   end
 
   def do_drop(false=_collides, brick, bottom, score) do
     %{
       brick: Brick.down(brick),
       bottom: bottom,
-      score: score
+      score: score,
+      game_over: false
     } 
   end
 

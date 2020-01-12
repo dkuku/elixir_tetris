@@ -17,15 +17,15 @@ defmodule BrickTest do
   test "should manipulate brick" do
     actual = 
       new_brick()
-      |> assert_location({40, 0})
+      |> assert_location({4, 0})
       |> left
-      |> assert_location({39, 0})
+      |> assert_location({3, 0})
       |> right
-      |> assert_location({40, 0})
+      |> assert_location({4, 0})
       |> right
-      |> assert_location({41, 0})
+      |> assert_location({5, 0})
       |> down
-      |> assert_location({41, 1})
+      |> assert_location({5, 1})
       |> assert_rotation(0)
       |> spin_90
       |> assert_rotation(90)
@@ -34,7 +34,7 @@ defmodule BrickTest do
 
     assert actual.name  == :l
     assert actual.rotation == 180
-    assert actual.location == {41, 1}
+    assert actual.location == {5, 1}
   end
 
   test "should return points for i shape" do

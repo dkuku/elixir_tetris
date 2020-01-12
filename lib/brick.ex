@@ -3,11 +3,11 @@ defmodule Tetris.Brick do
 
   defstruct [
     name: :l,
-    location: {40, 0},
+    location: {4, 0},
     rotation: 0,
     reflection: false
   ]
-  @x_center 40
+  @x_center 4
   @names ~w(i z o t l)a
 
   def new(attributes \\ []), do: __struct__(attributes)

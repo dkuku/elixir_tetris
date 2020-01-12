@@ -35,21 +35,21 @@ defmodule BottomTest do
 
   test "collapse single row and move down above rows" do
     bottom = Map.put_new(complete_row(20), {1,19}, {1,19,:blue})
-    actual = collapse_row(bottom, 20)
+    actual_bottom = collapse_row(bottom, 20)
 
     assert Enum.count(bottom) == 11
-    assert Enum.count(actual) == 1
-    assert Map.get(actual, {1, 20}) == {1, 20, :blue}
+    assert Enum.count(actual_bottom) == 1
+    assert Map.get(actual_bottom, {1, 20}) == {1, 20, :blue}
   end
 
   test " full collapse single row and move down above rows" do
     bottom = Map.put_new(complete_row(20), {1,19}, {1,19,:blue})
-    {score, actual} = full_collapse(bottom)
+    {score, actual_bottom} = full_collapse(bottom)
 
     assert score == 1
     assert Enum.count(bottom) == 11
-    assert Enum.count(actual) == 1
-    assert Map.get(actual, {1, 20}) == {1, 20, :blue}
+    assert Enum.count(actual_bottom) == 1
+    assert Map.get(actual_bottom, {1, 20}) == {1, 20, :blue}
   end
 
   def complete_row(row, color \\ :red) do

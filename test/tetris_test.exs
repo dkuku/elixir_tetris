@@ -31,6 +31,7 @@ defmodule TetrisTest do
     assert actual.brick == Brick.down(brick)
     assert actual.bottom == bottom
     assert actual.score == score
+    assert actual.game_over == false
   end
   test "drops with merging" do
     brick = Brick.new(location: {5, 17})
@@ -41,9 +42,10 @@ defmodule TetrisTest do
 
     assert actual.brick != Brick.down(brick)
     assert actual.brick != brick
-    assert actual.brick.location == {40, 0}
+    assert actual.brick.location == {4, 0}
     assert Enum.all?(Map.keys(bottom), &is_tuple(actual.bottom[&1]))
     assert actual.score == score
+    assert actual.game_over == false
   end
 
   test "drops with merging multiple rows" do
@@ -58,7 +60,7 @@ defmodule TetrisTest do
     %{score: score, bottom: bottom, brick: brick} = 
       Tetris.drop(brick, bottom, score)
 
-    assert brick.location == {40, 0}
+    assert brick.location == {4, 0}
     assert bottom == %{}
     assert score == 800
   end
