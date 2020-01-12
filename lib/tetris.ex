@@ -59,5 +59,5 @@ defmodule Tetris do
   def try_spin(brick, bottom), do: try_move(brick, bottom, &Brick.spin_90/1)
 
   def compute_score(0), do: 0
-  def compute_score(complete_row_count), do: 100 * :math.pow(2, complete_row_count - 1) 
+  def compute_score(complete_row_count), do: round( 100 * :math.pow(2, complete_row_count - 1) )
 end
